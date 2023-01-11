@@ -1,6 +1,7 @@
 package com.saas.registeration.controller;
 
 import com.saas.registeration.dto.ResponseDto;
+import com.saas.registeration.dto.SubscriptionPlanDto;
 import com.saas.registeration.service.SubscriptionPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,10 @@ public class SubscriptionPlanController {
     @GetMapping
     public @ResponseBody
     ResponseDto getSubscriptionPlan() {
-        return subscriptionPlanService.getSubscriptionPlan();
+        SubscriptionPlanDto[] subscriptionPlanDtos = subscriptionPlanService.getSubscriptionPlan();
+        return ResponseDto.builder().data(subscriptionPlanDtos)
+                .message(HttpStatus.OK.name())
+                .statusCode(HttpStatus.OK.toString()).build();
     }
 
 }

@@ -1,8 +1,8 @@
 package com.saas.registeration.controller;
 
 import com.saas.registeration.dto.AddCompanyRequestDto;
+import com.saas.registeration.dto.AddCompanyResponseDto;
 import com.saas.registeration.dto.ResponseDto;
-import com.saas.registeration.entity.Company;
 import com.saas.registeration.service.CompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,12 @@ public class CompanyController {
     @PostMapping
     public @ResponseBody
     ResponseDto addCompany(@RequestBody @Valid AddCompanyRequestDto addCompanyRequestDto) {
-        return companyService.addCompany(addCompanyRequestDto);
+        AddCompanyResponseDto addCompanyResponseDto = companyService.addCompany(addCompanyRequestDto);
+        return ResponseDto.builder()
+                .data(addCompanyResponseDto)
+                .message(HttpStatus.CREATED.name())
+                .statusCode(HttpStatus.CREATED.toString())
+                .build();
     }
 
 }

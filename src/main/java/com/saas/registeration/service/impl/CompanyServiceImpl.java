@@ -26,7 +26,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional
     @Override
-    public ResponseDto addCompany(AddCompanyRequestDto addCompanyRequestDto) {
+    public AddCompanyResponseDto addCompany(AddCompanyRequestDto addCompanyRequestDto) {
 
         Company company = Company.builder()
                 .address(addCompanyRequestDto.getCompanyAddress())
@@ -60,10 +60,6 @@ public class CompanyServiceImpl implements CompanyService {
 
         userService.save(user);
 
-        return ResponseDto.builder()
-                .data(AddCompanyResponseDto.builder().companyId(company.getCompanyId()).build())
-                .message(HttpStatus.CREATED.name())
-                .statusCode(HttpStatus.CREATED.toString())
-                .build();
+        return AddCompanyResponseDto.builder().companyId(company.getCompanyId()).build();
     }
 }
