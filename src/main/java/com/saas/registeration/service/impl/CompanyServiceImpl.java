@@ -1,33 +1,35 @@
 package com.saas.registeration.service.impl;
 
+import com.saas.registeration.common.Constants;
 import com.saas.registeration.dto.AddCompanyRequestDto;
+import com.saas.registeration.dto.AddCompanyResponseDto;
 import com.saas.registeration.dto.ResponseDto;
-import com.saas.registeration.entity.Company;
-import com.saas.registeration.entity.CompanySubscriptionPlan;
-import com.saas.registeration.entity.SubscriptionPlan;
+import com.saas.registeration.entity.*;
 import com.saas.registeration.repository.CompanyRepository;
 import com.saas.registeration.service.CompanyService;
 import com.saas.registeration.service.CompanySubscriptionPlanService;
+import com.saas.registeration.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
 @Service
-
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final CompanySubscriptionPlanService companySubscriptionPlanService;
+    private final UserService userService;
 
     @Transactional
     @Override
     public ResponseDto addCompany(AddCompanyRequestDto addCompanyRequestDto) {
 
         Company company = Company.builder()
-                .address(addCompanyRequestDto.getAddress())
+                .address(addCompanyRequestDto.getCompanyAddress())
                 .commercialName(addCompanyRequestDto.getCommercialName())
                 .landlineNumber(addCompanyRequestDto.getLandlineNumber())
                 .completeName(addCompanyRequestDto.getCompleteName())
@@ -47,6 +49,21 @@ public class CompanyServiceImpl implements CompanyService {
 
         companySubscriptionPlanService.save(companySubscriptionPlan);
 
-        return null;
+        User user = User.builder()
+                .userName(addCompanyRequestDto.getUserName())
+                .email(addCompanyRequestDto.getEmail())
+                .password(addCompanyRequestDto.getPassword())
+                .company(company)
+                .userType(new UserType(Constants.USER_TYPE.COMPANY))
+                .userRole(new UserRole(Constants.USER_ROLE.ADMIN))
+                .build();
+
+        userService.save(user);
+
+        return ResponseDto.builder()
+                .data(AddCompanyResponseDto.builder().companyId(company.getCompanyId()).build())
+                .message(HttpStatus.CREATED.name())
+                .statusCode(HttpStatus.CREATED.toString())
+                .build();
     }
 }

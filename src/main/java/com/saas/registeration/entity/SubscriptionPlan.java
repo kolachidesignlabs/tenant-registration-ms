@@ -1,7 +1,6 @@
 package com.saas.registeration.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,14 +22,11 @@ public class SubscriptionPlan extends BaseEntity {
     private Long subscriptionPlanId;
 
     @Column(name = "TITTLE")
-    @NotNull
     private String tittle;
 
     @Column(name = "DESCRIPTION")
-    @NotNull
     private String description;
 
     @Column(name = "ACTIVE")
-    @NotNull
     private Boolean active;
 }

@@ -21,7 +21,6 @@ public class CompanySubscriptionPlan extends BaseEntity {
     private Long companySubscriptionPlanId;
 
     @Column(name = "SUBSCRIPTION_DATE")
-    @NotNull
     private Date subscriptionDate;
 
     @ManyToOne
