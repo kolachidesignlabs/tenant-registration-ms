@@ -3,14 +3,14 @@ package com.saas.registeration.service.impl;
 import com.saas.registeration.common.Constants;
 import com.saas.registeration.dto.AddCompanyRequestDto;
 import com.saas.registeration.dto.AddCompanyResponseDto;
-import com.saas.registeration.dto.ResponseDto;
+import com.saas.registeration.dto.CompanyProvisioningMessageDto;
 import com.saas.registeration.entity.*;
 import com.saas.registeration.repository.CompanyRepository;
 import com.saas.registeration.service.CompanyService;
 import com.saas.registeration.service.CompanySubscriptionPlanService;
+import com.saas.registeration.service.RabbitMqProducerService;
 import com.saas.registeration.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +23,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final CompanySubscriptionPlanService companySubscriptionPlanService;
     private final UserService userService;
+    private final RabbitMqProducerService rabbitMqProducerService;
 
     @Transactional
     @Override
@@ -59,6 +60,19 @@ public class CompanyServiceImpl implements CompanyService {
                 .build();
 
         userService.save(user);
+
+        CompanyProvisioningMessageDto companyProvisioningMessageDto = CompanyProvisioningMessageDto.builder()
+                .domainUrl(company.getDomainUrl())
+                .companyAddress(company.getAddress())
+                .companyId(company.getCompanyId())
+                .commercialName(company.getCommercialName())
+                .completeName(company.getCompleteName())
+                .subscriptionPlanId(companySubscriptionPlan.getCompanySubscriptionPlanId())
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .build();
+
+        rabbitMqProducerService.send(companyProvisioningMessageDto, null, null);
 
         return AddCompanyResponseDto.builder().companyId(company.getCompanyId()).build();
     }

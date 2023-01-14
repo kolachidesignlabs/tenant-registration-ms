@@ -41,4 +41,7 @@ public class Company extends BaseEntity {
     @Column(name = "EMAIL")
     private String email;
 
+    @Column(name = "DOMAIN_URL")
+    private String domainUrl;
+
 }
