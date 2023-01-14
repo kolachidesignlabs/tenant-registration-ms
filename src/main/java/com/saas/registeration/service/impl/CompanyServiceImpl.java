@@ -41,25 +41,8 @@ public class CompanyServiceImpl implements CompanyService {
                 .build();
 
         company = companyRepository.save(company);
-
-        CompanySubscriptionPlan companySubscriptionPlan = CompanySubscriptionPlan.builder()
-                .company(company)
-                .subscriptionPlan(new SubscriptionPlan(addCompanyRequestDto.getSubscriptionPlanId()))
-                .subscriptionDate(new Date())
-                .build();
-
-        companySubscriptionPlanService.save(companySubscriptionPlan);
-
-        User user = User.builder()
-                .userName(addCompanyRequestDto.getUserName())
-                .email(addCompanyRequestDto.getEmail())
-                .password(addCompanyRequestDto.getPassword())
-                .company(company)
-                .userType(new UserType(Constants.USER_TYPE.COMPANY))
-                .userRole(new UserRole(Constants.USER_ROLE.ADMIN))
-                .build();
-
-        userService.save(user);
+        CompanySubscriptionPlan companySubscriptionPlan = addCompanySubscriptionPlan(addCompanyRequestDto, company);
+        User user = addCompanyUser(addCompanyRequestDto, company);
 
         CompanyProvisioningMessageDto companyProvisioningMessageDto = CompanyProvisioningMessageDto.builder()
                 .domainUrl(company.getDomainUrl())
@@ -76,4 +59,26 @@ public class CompanyServiceImpl implements CompanyService {
 
         return AddCompanyResponseDto.builder().companyId(company.getCompanyId()).build();
     }
+
+    private CompanySubscriptionPlan addCompanySubscriptionPlan(AddCompanyRequestDto addCompanyRequestDto, Company company) {
+        CompanySubscriptionPlan companySubscriptionPlan = CompanySubscriptionPlan.builder()
+                .company(company)
+                .subscriptionPlan(new SubscriptionPlan(addCompanyRequestDto.getSubscriptionPlanId()))
+                .subscriptionDate(new Date())
+                .build();
+        return companySubscriptionPlanService.save(companySubscriptionPlan);
+    }
+
+    private User addCompanyUser(AddCompanyRequestDto addCompanyRequestDto, Company company) {
+        User user = User.builder()
+                .userName(addCompanyRequestDto.getUserName())
+                .email(addCompanyRequestDto.getEmail())
+                .password(addCompanyRequestDto.getPassword())
+                .company(company)
+                .userType(new UserType(Constants.USER_TYPE.COMPANY))
+                .userRole(new UserRole(Constants.USER_ROLE.ADMIN))
+                .build();
+        return userService.save(user);
+    }
+
 }
