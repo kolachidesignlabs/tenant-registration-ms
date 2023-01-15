@@ -8,11 +8,11 @@
         <version>3.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.saas</groupId>
-    <artifactId>registeration-ms</artifactId>
+    <groupId>com.kolachidesignlabs</groupId>
+    <artifactId>tenant-registration-ms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>registeration-ms</name>
-    <description>registeration-ms</description>
+    <name>tenant-registration-ms</name>
+    <description>tenant-registration-ms</description>
     <properties>
         <java.version>19</java.version>
     </properties>
