@@ -1,6 +1,10 @@
 package com.kolachidesignlabs.tenant.registration.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.ByteString;
+import com.google.pubsub.v1.PubsubMessage;
 import com.kolachidesignlabs.tenant.registration.common.Constants;
+import com.kolachidesignlabs.tenant.registration.config.Publisher;
 import com.kolachidesignlabs.tenant.registration.dto.AddCompanyRequestDto;
 import com.kolachidesignlabs.tenant.registration.dto.CompanyDto;
 import com.kolachidesignlabs.tenant.registration.dto.CompanyProvisioningMessageDto;
@@ -8,14 +12,17 @@ import com.kolachidesignlabs.tenant.registration.entity.*;
 import com.kolachidesignlabs.tenant.registration.repository.CompanyRepository;
 import com.kolachidesignlabs.tenant.registration.service.CompanyService;
 import com.kolachidesignlabs.tenant.registration.service.CompanySubscriptionPlanService;
-import com.kolachidesignlabs.tenant.registration.service.RabbitMqProducerService;
 import com.kolachidesignlabs.tenant.registration.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final CompanySubscriptionPlanService companySubscriptionPlanService;
     private final UserService userService;
-    private final RabbitMqProducerService rabbitMqProducerService;
+    private final Publisher publisher;
 
     @Transactional
     @Override
@@ -57,10 +64,27 @@ public class CompanyServiceImpl implements CompanyService {
                 .email(user.getEmail())
                 .build();
 
-        rabbitMqProducerService.send(companyProvisioningMessageDto, null, null);
+        publishMessage(companyProvisioningMessageDto);
 
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(company, CompanyDto.class);
+    }
+
+    void publishMessage(CompanyProvisioningMessageDto companyProvisioningMessageDto) {
+        try {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String message = objectMapper.writeValueAsString(companyProvisioningMessageDto);
+
+            PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
+                    .setData(ByteString.copyFromUtf8(message))
+                    .setMessageId("messageId " + UUID.randomUUID())
+                    .build();
+            publisher.publish(pubsubMessage);
+
+        } catch (Exception exception) {
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, exception.getMessage());
+        }
     }
 
     private CompanySubscriptionPlan addCompanySubscriptionPlan(AddCompanyRequestDto addCompanyRequestDto, Company company) {
