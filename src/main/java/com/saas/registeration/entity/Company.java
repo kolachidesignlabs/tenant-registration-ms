@@ -44,4 +44,8 @@ public class Company extends BaseEntity {
     @Column(name = "DOMAIN_URL")
     private String domainUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "COMPANY_STATUS_ID")
+    CompanyStatus companyStatus;
+
 }

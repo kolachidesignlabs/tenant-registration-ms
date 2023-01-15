@@ -10,4 +10,13 @@ public class Constants {
         public static long COMPANY = 1L;
         public static long MANAGEMENT = 2L;
     }
+
+    public static class COMPANY_STATUS {
+        public static long DRAFT =1L;
+        public static long LIVE = 2L;
+        public static long SUSPENDED = 3L;
+        public static long ARCHIVED = 4L;
+
+
+    }
 }

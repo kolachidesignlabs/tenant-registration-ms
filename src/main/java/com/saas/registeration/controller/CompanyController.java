@@ -1,7 +1,8 @@
 package com.saas.registeration.controller;
 
 import com.saas.registeration.dto.AddCompanyRequestDto;
-import com.saas.registeration.dto.AddCompanyResponseDto;
+import com.saas.registeration.dto.CompanyDto;
+import com.saas.registeration.dto.CompanyStatusDto;
 import com.saas.registeration.dto.ResponseDto;
 import com.saas.registeration.service.CompanyService;
 import jakarta.validation.Valid;
@@ -21,11 +22,35 @@ public class CompanyController {
     @PostMapping
     public @ResponseBody
     ResponseDto addCompany(@RequestBody @Valid AddCompanyRequestDto addCompanyRequestDto) {
-        AddCompanyResponseDto addCompanyResponseDto = companyService.addCompany(addCompanyRequestDto);
+        CompanyDto companyDto = companyService.addCompany(addCompanyRequestDto);
         return ResponseDto.builder()
-                .data(addCompanyResponseDto)
+                .data(companyDto)
                 .message(HttpStatus.CREATED.name())
                 .statusCode(HttpStatus.CREATED.toString())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public @ResponseBody
+    ResponseDto getCompany(@RequestParam(name = "companyId") Long companyId) {
+        CompanyDto companyDto = companyService.getCompany(companyId);
+        return ResponseDto.builder()
+                .data(companyDto)
+                .message(HttpStatus.OK.name())
+                .statusCode(HttpStatus.OK.toString())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/status")
+    public @ResponseBody
+    ResponseDto getCompanyStatus(@RequestParam(name = "companyId") Long companyId) {
+        CompanyStatusDto companyStatusDto = companyService.getCompanyStatus(companyId);
+        return ResponseDto.builder()
+                .data(companyStatusDto)
+                .message(HttpStatus.OK.name())
+                .statusCode(HttpStatus.OK.toString())
                 .build();
     }
 

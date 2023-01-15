@@ -35,6 +35,7 @@ public class User extends BaseEntity {
     private UserRole userRole;
 
     @ManyToOne
+
     @JoinColumn(name = "COMPANY_ID")
     private Company company;
 }
