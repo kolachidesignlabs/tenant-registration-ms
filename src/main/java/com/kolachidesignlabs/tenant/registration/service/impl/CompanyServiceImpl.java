@@ -1,22 +1,19 @@
 package com.kolachidesignlabs.tenant.registration.service.impl;
 
-import com.kolachidesignlabs.tenant.registration.entity.*;
-import com.kolachidesignlabs.tenant.registration.service.RabbitMqProducerService;
 import com.kolachidesignlabs.tenant.registration.common.Constants;
 import com.kolachidesignlabs.tenant.registration.dto.AddCompanyRequestDto;
 import com.kolachidesignlabs.tenant.registration.dto.CompanyDto;
 import com.kolachidesignlabs.tenant.registration.dto.CompanyProvisioningMessageDto;
-import com.kolachidesignlabs.tenant.registration.dto.CompanyStatusDto;
+import com.kolachidesignlabs.tenant.registration.entity.*;
 import com.kolachidesignlabs.tenant.registration.repository.CompanyRepository;
 import com.kolachidesignlabs.tenant.registration.service.CompanyService;
 import com.kolachidesignlabs.tenant.registration.service.CompanySubscriptionPlanService;
+import com.kolachidesignlabs.tenant.registration.service.RabbitMqProducerService;
 import com.kolachidesignlabs.tenant.registration.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 
@@ -62,20 +59,6 @@ public class CompanyServiceImpl implements CompanyService {
 
         rabbitMqProducerService.send(companyProvisioningMessageDto, null, null);
 
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(company, CompanyDto.class);
-    }
-
-    @Override
-    public CompanyStatusDto getCompanyStatus(Long companyId) {
-        Company company = companyRepository.findById(companyId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not exist"));
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(company, CompanyStatusDto.class);
-    }
-
-    @Override
-    public CompanyDto getCompany(Long companyId) {
-        Company company = companyRepository.findById(companyId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not exist"));
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(company, CompanyDto.class);
     }

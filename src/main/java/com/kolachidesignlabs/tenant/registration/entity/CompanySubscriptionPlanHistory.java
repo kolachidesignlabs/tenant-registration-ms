@@ -1,12 +1,10 @@
 package com.kolachidesignlabs.tenant.registration.entity;
 
-import javax.persistence.*;
-
-import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Getter

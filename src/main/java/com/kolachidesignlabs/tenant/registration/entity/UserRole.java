@@ -1,7 +1,8 @@
 package com.kolachidesignlabs.tenant.registration.entity;
 
-import javax.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Builder
 @Getter
