@@ -1,8 +1,8 @@
 package com.kolachidesignlabs.tenant.registration.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Builder
@@ -11,22 +11,23 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "COMPANY_SUBSCRIPTION_PLAN")
-public class CompanySubscriptionPlan extends BaseEntity {
+@Table(name = "COMPANY_SUBSCRIPTION_PLANS")
+public class CompanySubscriptionPlan {
 
     @Id
     @Column(name = "COMPANY_SUBSCRIPTION_PLAN_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long companySubscriptionPlanId;
 
-    @Column(name = "SUBSCRIPTION_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "SUBSCRIPTION_DATE", nullable = false)
     private Date subscriptionDate;
 
     @ManyToOne
-    @JoinColumn(name = "COMPANY_ID")
+    @JoinColumn(name = "COMPANY_ID", nullable = false, unique = true)
     private Company company;
 
     @ManyToOne
-    @JoinColumn(name = "SUBSCRIPTION_PLAN_ID")
+    @JoinColumn(name = "SUBSCRIPTION_PLAN_ID", nullable = false)
     private SubscriptionPlan subscriptionPlan;
 }

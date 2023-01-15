@@ -7,7 +7,6 @@ import com.kolachidesignlabs.tenant.registration.dto.AddCompanyRequestDto;
 import com.kolachidesignlabs.tenant.registration.dto.CompanyDto;
 import com.kolachidesignlabs.tenant.registration.dto.CompanyProvisioningMessageDto;
 import com.kolachidesignlabs.tenant.registration.dto.CompanyStatusDto;
-import com.saas.registeration.entity.*;
 import com.kolachidesignlabs.tenant.registration.repository.CompanyRepository;
 import com.kolachidesignlabs.tenant.registration.service.CompanyService;
 import com.kolachidesignlabs.tenant.registration.service.CompanySubscriptionPlanService;
@@ -96,7 +95,7 @@ public class CompanyServiceImpl implements CompanyService {
                 .email(addCompanyRequestDto.getEmail())
                 .password(addCompanyRequestDto.getPassword())
                 .company(company)
-                .userType(new UserType(Constants.USER_TYPE.COMPANY))
+                .userType(new UserType(Constants.USER_TYPE.TENANT))
                 .userRole(new UserRole(Constants.USER_ROLE.ADMIN))
                 .build();
         return userService.save(user);

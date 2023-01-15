@@ -1,7 +1,8 @@
 package com.kolachidesignlabs.tenant.registration.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Builder
 @Getter
@@ -9,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "COMPANY_STATUS")
-public class CompanyStatus extends BaseEntity {
+@Table(name = "COMPANY_STATUSES")
+public class CompanyStatus {
 
     public CompanyStatus(Long companyStatusId) {
         this.companyStatusId = companyStatusId;
@@ -21,7 +22,7 @@ public class CompanyStatus extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long companyStatusId;
 
-    @Column(name = "COMPANY_STATUS")
+    @Column(name = "COMPANY_STATUS", nullable = false, unique = true, length = 100)
     private String companyStatus;
 
 }

@@ -7,10 +7,6 @@ import lombok.Setter;
 @Setter
 public class SubscriptionPlanDto {
 
-    public SubscriptionPlanDto(Long subscriptionPlanId) {
-        this.subscriptionPlanId = subscriptionPlanId;
-    }
-
     private Long subscriptionPlanId;
     private String tittle;
     private String description;

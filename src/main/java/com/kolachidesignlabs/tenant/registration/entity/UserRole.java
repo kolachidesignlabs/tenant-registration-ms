@@ -1,6 +1,6 @@
 package com.kolachidesignlabs.tenant.registration.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 @Builder
@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "USER_ROLE")
-public class UserRole extends BaseEntity {
+@Table(name = "USER_ROLES")
+public class UserRole {
 
     public UserRole(Long userRoleId) {
         this.userRoleId = userRoleId;
@@ -21,7 +21,7 @@ public class UserRole extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userRoleId;
 
-    @Column(name = "USER_ROLE")
+    @Column(name = "USER_ROLE", nullable = false, length = 100, unique = true)
     private String userRole;
 
 }

@@ -1,8 +1,8 @@
 package com.kolachidesignlabs.tenant.registration.controller;
 
+import com.kolachidesignlabs.tenant.registration.dto.ResponseDto;
 import com.kolachidesignlabs.tenant.registration.dto.SubscriptionPlanDto;
 import com.kolachidesignlabs.tenant.registration.service.SubscriptionPlanService;
-import com.kolachidesignlabs.tenant.registration.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -23,9 +23,7 @@ public class SubscriptionPlanController {
     public @ResponseBody
     ResponseDto getSubscriptionPlan() {
         SubscriptionPlanDto[] subscriptionPlanDtos = subscriptionPlanService.getSubscriptionPlan();
-        return ResponseDto.builder().data(subscriptionPlanDtos)
-                .message(HttpStatus.OK.name())
-                .statusCode(HttpStatus.OK.toString()).build();
+        return new ResponseDto(subscriptionPlanDtos);
     }
 
 }
