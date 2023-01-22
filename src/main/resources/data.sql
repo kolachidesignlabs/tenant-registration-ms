@@ -9,6 +9,15 @@ INSERT INTO public.subscription_plans
 VALUES (3, true, 'Siloed Infrastructure', 'Advance Plan');
 
 INSERT INTO public.company_statuses
+(company_status_id, company_status)
+VALUES (1, 'Draft');
+INSERT INTO public.company_statuses
+(company_status_id, company_status)
+VALUES (2, 'Live');
+INSERT INTO public.company_statuses
+(company_status_id, company_status)
+VALUES (3, 'Suspended');
+INSERT INTO public.company_statuses
     (company_status_id, company_status)
 VALUES (4, 'Archived');
 
@@ -17,5 +26,9 @@ INSERT INTO public.user_roles
 VALUES (1, 'Admin');
 
 INSERT INTO public.user_types
+(user_type_id, user_type)
+VALUES (1, 'Tenant');
+INSERT INTO public.user_types
     (user_type_id, user_type)
 VALUES (2, 'Administration');
+
