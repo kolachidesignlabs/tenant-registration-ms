@@ -1,6 +1,6 @@
 steps:
   # Run the Maven build
-  - name: maven
+  - name: maven:3.8.7-openjdk-18
     entrypoint: 'mvn'
     args: ['clean', 'install', '-DskipTests']
   - name: 'gcr.io/cloud-builders/docker'
