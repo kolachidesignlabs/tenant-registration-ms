@@ -9,7 +9,7 @@ steps:
   - name: 'gcr.io/cloud-builders/gke-deploy:stable'
     args:
       - run
-      - --image=gcr.io/${PROJECT_ID}/${_IMAGE_NAME}:latest
+      - --image=gcr.io/${PROJECT_ID}/tenant-registration-ms:latest
       - --location=us-central1-c
       - --cluster=tenant-management-ms
       - --expose=8080
