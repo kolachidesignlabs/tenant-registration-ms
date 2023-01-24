@@ -5,4 +5,4 @@ steps:
     args: ['clean', 'install', '-DskipTests']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/tenant-registration-ms', '.']
-images: ['gcr.io/$PROJECT_ID/tenant-registration-ms/tenant-registration-ms:0.0.1']
+images: ['gcr.io/$PROJECT_ID/tenant-registration-ms']
