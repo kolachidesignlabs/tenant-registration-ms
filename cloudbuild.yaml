@@ -1,23 +1,8 @@
 steps:
-  # Copy Maven dependencies to volume mavenrepo
-  - name: gcr.io/cloud-builders/gsutil
-    volumes:
-      - name: 'maven_dependencies'
-        path: '/root/.m2'
-    args: ['cp', '-r', 'gs://maven_dependencies', '/root/.m2']
   # Run the Maven build
   - name: maven:3.8.7-amazoncorretto-19
-    volumes:
-      - name: 'maven_dependencies'
-        path: '/root/.m2'
     entrypoint: 'mvn'
     args: ['clean', 'install', '-DskipTests']
-  # Preserve the Maven dependencies into the bucket
-  - name: gcr.io/cloud-builders/gsutil
-    volumes:
-      - name: 'maven_dependencies'
-        path: '/root/.m2'
-    args: ['cp', '-r', '/root/.m2', 'gs://maven_dependencies']
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/tenant-registration-ms', '.' ]
-images: [ 'gcr.io/$PROJECT_ID/tenant-registration-ms' ]
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/tenant-registration-ms', '.']
+images: ['gcr.io/$PROJECT_ID/tenant-registration-ms']
