@@ -19,5 +19,5 @@ steps:
         path: '/root/.m2'
     args: ['cp', '-r', '/root/.m2', 'gs://maven_dependencies']
   - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/tenant-registration-ms', '.' ]
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/tenant-registration-ms', '.' ]
 images: [ 'gcr.io/$PROJECT_ID/tenant-registration-ms' ]
