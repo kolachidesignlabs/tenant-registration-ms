@@ -20,4 +20,4 @@ steps:
     args: ['cp', '-r', '/root/.m2', 'gs://maven_dependencies']
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/tenant-management-ms', '.' ]
-  images: [ 'gcr.io/$PROJECT_ID/tenant-management-ms' ]
+images: [ 'gcr.io/$PROJECT_ID/tenant-management-ms' ]
