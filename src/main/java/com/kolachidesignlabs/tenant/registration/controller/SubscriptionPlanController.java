@@ -1,8 +1,5 @@
 package com.kolachidesignlabs.tenant.registration.controller;
 
-import com.kolachidesignlabs.tenant.registration.dto.ResponseDto;
-import com.kolachidesignlabs.tenant.registration.dto.SubscriptionPlanDto;
-import com.kolachidesignlabs.tenant.registration.service.SubscriptionPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -13,17 +10,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/subscription-plan")
+@RequestMapping()
 public class SubscriptionPlanController {
-
-    private final SubscriptionPlanService subscriptionPlanService;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public @ResponseBody
-    ResponseDto getSubscriptionPlan() {
-        SubscriptionPlanDto[] subscriptionPlanDtos = subscriptionPlanService.getSubscriptionPlan();
-        return new ResponseDto(subscriptionPlanDtos);
+    String getSubscriptionPlan() {
+        return "Hello World";
     }
 
 }
