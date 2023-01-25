@@ -1,6 +1,6 @@
 steps:
   # Run the Maven build
-  - name: maven:3.8.7-amazoncorretto-19
+  - name: maven:3.6.0-jdk-11
     entrypoint: 'mvn'
     args: ['clean', 'install', '-DskipTests']
   - name: 'gcr.io/cloud-builders/docker'
@@ -11,6 +11,6 @@ steps:
       - run
       - --image=gcr.io/${PROJECT_ID}/tenant-registration-ms:latest
       - --location=us-central1-c
-      - --cluster=tenant-management-ms
+      - --cluster=tenant-registration-ms
       - --expose=8080
 images: ['gcr.io/$PROJECT_ID/tenant-registration-ms']
